@@ -1,8 +1,10 @@
 # Research into Sharks caught by the Queensland Shark Control Program in 2016
 ## Table of contents
 * [General Info](#general-info)
-* [Technologies and Access](#technologies-and-access)
+* [Technologies](#technologies)
 * [Sources](#sources)
+
+The report can be accessed [here](https://jaronch.github.io/Research-into-Sharks-caught-by-the-Queensland-Shark-Control-Program-in-2016/).
 
 ## General Info
 An original statistical report where I analyse 532 records of sharks caught by the Queensland Shark Control Program in 2016. The Shark Control Program  uses nets, drumlines or a combination to minimise the threat of shark attacks on humans in 85 beaches along the Queensland coastline.
@@ -17,8 +19,6 @@ This project was completed individually from scratch as part of uni coursework. 
 
 ## Technologies and Access
 The report and data analytic techniques were completed with R and R Markdown.
-
-The report can be accessed [here](https://jaronch.github.io/Research-into-Sharks-caught-by-the-Queensland-Shark-Control-Program-in-2016/).
 
 ## Sources
 Australian Government, Department of Agriculture, Water and Environment. (2005, March 21). Death or injury to marine species following capture in beach meshing (nets) and drum lines used in Shark Control Programs. https://www.environment.gov.au/biodiversity/threatened/nominations/ineligible-ktp/death-or-injury-to-marine-species
