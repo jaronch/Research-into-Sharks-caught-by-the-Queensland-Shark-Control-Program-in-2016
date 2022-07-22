@@ -1,0 +1,186 @@
+---
+title: "Research into Sharks caught by the Queensland Shark Control Program in 2016"
+author: "SID: 490429381 | Class: Thursday, 1-2pm, Carslaw Comp Lab, 705-706"
+subtitle: "Project 2"
+date: "University of Sydney | MATH1005 | MAY 2020"
+# You can change the title, subtitle, author etc.
+# if you do not want a subtitle, author, or date just delete or comment # the the line!
+output:
+  html_document:
+    fig_caption: yes
+    number_sections: yes
+    self_contained: yes
+    theme: paper
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    code_folding: hide
+---
+
+<br>
+
+# Executive Summary (100 WORDS)
+
+The report contains 532 records of sharks caught by the Queensland Shark Control Program in 2016. The aim of this report is to examine the effects of water temperature on shark appearances near beaches that poses a threat to humans. At what temperatures are sharks most likely to be present, and are sharks in the summer larger than those is the winter? The main discoveries are that the evidence indicates that sharks prefer warm temperatures of 24º-26ºC and that the data does not provide evidence that sharks are larger in summer than winter.
+
+<br>
+
+<br>
+
+# Full Report
+
+## Initial Data Analysis (IDA)
+
+
+The data used in this report was sourced from the open data portal of the Queensland Government published by the Department of Agriculture and Fisheries. It records the shark catch numbers in the year 2016 by the Shark Control Program (SCP), which uses nets, drumlines or a combination to minimise the threat of shark attacks on humans in 85 beaches along the Queensland coastline. Since its 1962 implementation, only one fatal shark attack has occurred on a protected beach compared to 36 attacks resulting in 19 fatalities from 1916 to 1962, and thus the SCP continues for the safety of swimmers, divers and water personnel. However, it costs approximately $3.3 million annually and the methods kill vulnerable marine animals hence its ethics are discussed politically, though the SCP aims to minimise its impact here without compromising human safety.
+The Government supplies open access for accountability, so that policies can be evidence-based and to provide opportunities for further innovation. Being sourced from the Australian Government, published by the Department that directly manages the SCP, the dataset can be said to be of high reliability and integrity.
+
+
+This data was collected as part of the SCP as a means of monitoring the prevalence of sharks in SCP protected areas which enables continual improvement. Being an observational study that doesn’t control variables, whilst associations can be made, it is difficult to establish causation as there are many confounding factors, thus conclusions require care. For instance, a research question on which beach has the most sharks in Queensland cannot be answered validly with this dataset as the SCP does not operate in all beaches in Queensland, nor cover the whole beach (only covers 186m) and shark appearances that are recorded in this dataset are those sharks that are caught in the net. Many sharks could be roaming in the area but remain uncaught. Thus, though analysis of this data can still provide insight into the nature of shark appearances near beaches, the limitations of the data should be noted.
+
+
+The dataset is comprehensive, with each row representing one of the 532 records of sharks caught and tagged in the nets/drumlines of the SCP, and each column representing one of the 10 variables, named discernibly for the species, date of capture, location, size and water temperature of shark catches in 2016. The variables contained are both qualitative and quantitative.
+
+R correctly classifies “Length” and “Water Temp (C)” as numerical variables, and identifies the rest as character categorical variables. Whilst latitude and longitude can be considered ordinal numbered variables, R classifies them as characters, as the symbol used for degrees was not represented correctly. These two variables are not relevant to the research, so cleaning here is unneeded. The rest of the classifications are sufficient for the analysis, however, the data is best presented when the variables ‘Month’ and ‘Day of Week’ are ordered, thus code has been developed so that the levels are in standard order allowing for graphs to be better represented.
+
+
+```{r}
+
+data = read.csv("data.csv")
+# quick look of top 6 rows
+head(data)
+
+# See structure of data
+str(data)
+
+# Checking if Month is ordered
+str(data$Month)
+
+# R classified the variable Month as a factor having 12 levels which is correct. But we also want to order the levels in order, so some manipulation required.
+data$Month = factor(data$Month, levels = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"), ordered = TRUE)
+
+# Check if R has ordered the factors
+min(data$Month)
+
+# We want to order Day of Week in order
+data$Day.of.Week = factor(data$Day.of.Week, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"), ordered = TRUE)
+
+# Check if R has ordered the factors
+min(data$Day.of.Week)
+
+```
+
+
+
+<br>
+
+## Research Question 1: At what temperatures are sharks present around Queensland beaches?
+
+Preliminary research on the internet indicates that the largest populations of sharks tend to live in tropical and warm temperate coastal and pelagic waters, with the tropical regions always being kept warm mostly in the range 21º-30ºC  as the sun’s heat which is strongest at the equator is spread down to the tropics by the ocean currents. 
+
+
+This claim was first examined with the SCP data for 2016. A histogram of the frequency of shark catches in Queensland in 2016 by the SCP according to water temperature shows that most of the sharks are caught in the approximately 24º-26ºC range, which supports the claim that most sharks ten to live in warm waters. The mean of the water temperature is 24.8ºC (3sf) and the median is 25ºC. In fact, the histogram seems to approximate a normal distribution, which is understandable as by the Central Limit Theorem, if draws are random and independent and the sample size is sufficiently large, then the distribution for the sum of the sample will closely follow the normal curve. Though it is difficult to determine whether sharks being caught in nets across Queensland can be said to be true random selection, a sample size of 532 is quite large and did result in yielding a normal distribution of a sample that could be said to be representative of the population of sharks that swim around the 86 Queensland SCP-protected beaches. Holmes (2015) writes that data in relation to shark ecology is often difficult to obtain due to unstandardised methods, untrustworthy commercial sources, and the semi-solitary nature often characteristic of sharks, thus data from shark control programs are often advantageous, provide a valuable opportunity for research, and a good proxy for population abundance and other trends, as they followed standardised methods.
+
+
+A paper by Homes et al. ‘Tiger shark (Galeocerdo cuvier) movement patterns and habitat use by satellite tagging in eastern Australian waters’ (2014) tracks the movement, depth and/or temperature of 15 sharks between 4 and 408 days. 9 of those sharks were tagged with the Wildlife Computers Mk10 Pop-up Archival Tag (PAT) which measured temperature in 2ºC increments at 10 second intervals with the PAT operating at a mean of 20 days for a shark. The results showed that for 50% of the deployment time, the 9 PAT-tagged sharks spent it in waters of the 24º-26ºC temperature range. This provides further evidence that sharks prefer warmer waters. But the results from this paper has limited reliability as though the tagged sharks were selected quite randomly by capturing them from numerous locations both nearshore and offshore the coast and the water temperature data is large having been recorded frequently, 9 sharks is a very small sample and generalisations made here cannot be reliably said to be representative of the population. However, in corroboration with the findings made with the SCP data, the research in this report makes a strong case that most sharks in Queensland prefer warmer waters.
+![](Figure1.png)
+
+
+```{r}
+# Get ggplot2 package
+library(ggplot2)
+
+ggplot(data, aes(x=Water.Temp..C.)) + geom_histogram()
+mean(data$Water.Temp..C.)
+median(data$Water.Temp..C.)
+```
+<br>
+
+## Research Question 2: Are sharks caught in the summer longer than sharks caught in the winter?
+
+
+A graph of box plots of water temperature in the months of 2016 shows a strong trend that one would expect: in summer months, the water temperature is much higher, and in winter months, the water temperature is much colder. Generally fish, like sharks, prefer warmer temperatures of around 25° to 27°C. So is it possible that fish in winter seek these warmer climates by swimming closer to the surface and to the coast, and thus as a result sharks who are smaller and less competitive need to seek this food? A more accurate measure of desperation could be the girth of the shark, however length is the only measurement variable of the shark provided. In summary, are smaller sharks more active near beaches in winter, that is, are larger sharks more active near beaches in the summer? A histogram of the sharks caught depending on the month, shows slightly more are caught in summer months. When the sums are taken, 151 sharks are caught in the summer as opposed to 104 sharks caught in the winter. It would be interesting to see if it is plausible that those sharks that are more active near beaches in the summer are bigger than the ones in winter. 
+```{r}
+# Get ggplot2 package
+library(ggplot2)
+
+# Using ggplot to create an elegant  boxplot of Water Temperatures in the months of 2017
+ggplot(data, aes(x=Month, y=Water.Temp..C.)) + 
+    geom_boxplot() +
+    labs(title="Boxplots of Water Temperatures (ºC) in the Months of 2016",x="2016 Month", y = "Water Temperature (ºC)")+
+    theme(legend.position="none")
+
+# bar plot of frequency of shark catches by month
+ggplot(data, aes(x=Month)) + geom_histogram(stat="count")
+sum(c(data$Month == 'December'),(data$Month == 'January'),(data$Month == 'February'))
+sum(c(data$Month == 'March'),(data$Month == 'April'),(data$Month == 'May'))
+sum(c(data$Month == 'June'),(data$Month == 'July'),(data$Month == 'August'))
+sum(c(data$Month == 'September'),(data$Month == 'October'),(data$Month == 'November'))
+ 
+```
+
+A 2 sample t-test is used, with µ1 = mean of shark lengths caught in summer months (December, January, February) and µ2 = mean of shark lengths caught in winter months (June, July, August), testing $H_0: \mu = 0$ vs $H_1: \mu \neq 0$.
+For a 2 sample t-test, an assumption is that all observed individuals are independent within groups and between the different groups. As the two samples contain different sharks and the length of one shark would not really impact the lengths of other sharks, besides competition for food if the sharks are in the same area, this assumption seems to be satisfied. The second assumption required is that the sample means are normal. As the sharks are random and independent, and the sample size is large with 151+104=255 sharks being in the test, the Central Limit Theorem would hold and thus a normal distribution would be approximated. The third assumption required is that the populations have equal spread. However, by using the Welch 2 sample t-test, this assumption can be relaxed, and is more convenient to be used, though requiring additional calculations. Using two methods of calculating the test-statistic and p-value with R’s inbuilt Welch 2 Sample t-test and by long calculation to confirm each other, a test statistic of 0.087 (2sf) is obtained with a p-value=0.93 (2sf) which is far greater than the convention to reject a null hypothesis of p=0.05. This indicates that any variation in the sample was very likely to have been from chance. In conclusion, since $p > 0.05$, we accept the null hypothesis. That is, the data does not provide evidence that the mean of the difference is greater than 0.
+
+```{r}
+
+summer = c((data$Length..m.[data$Month == 'December']),(data$Length..m.[data$Month == 'January']),(data$Length..m.[data$Month == 'February']))
+                              
+winter = c((data$Length..m.[data$Month == 'June']),(data$Length..m.[data$Month == 'July']),(data$Length..m.[data$Month == 'August']))
+
+# Calculations
+OV = mean(summer)-mean(winter)
+EV = 0
+s1= sd(summer)
+s2=sd(winter)
+n1=length(summer)
+n2=length(winter)
+
+SE = sqrt(s1^2/n1 + s2^2/n2)
+df = (s1^2/n1 + s2^2/n2)^2/((s1^2/n1)^2/(n1-1) + (s2^2/n2)^2/(n2-1))
+t = (OV - EV)/SE
+df
+t
+
+# Using R's inbuilt Welch 2 Sample t-test to confirm the calculations were correct
+t.test(summer,winter, var.equal = FALSE)
+
+
+# Graphing the normal distribution
+x <- seq(-3.5, 3.5, len=200) # set x values
+
+plot(x, dt(x, df), type="l", xlab="T", ylab="density", 
+     main="t_df Distribution") # plot the normal curve
+axis(1, seq(-3,3)) # set the axis labels
+abline(h=0) # draw in the axis
+polygon(x = c(t, seq(t, 3.5, len=200) , 3.5),
+         y = c(0, dt(seq(t, 3.5, len=200), df) , 0), col = "red") # shade in the area
+polygon(x = c(-t, seq(-t, -3.5, len=200) , -3.5),
+         y = c(0, dt(seq(-t, -3.5, len=200), df) , 0), col = "red") # shade in the area
+arrows(t, dt(t, df), t, 0.35,
+       length=0, lty=2, col=4) # add the dotted line
+text(t, 0.35 + .002, "t= 0.087", col=4) # add the label
+arrows(-t, dt(-t, df), -t, 0.35,
+       length=0, lty=2, col=4) # add the dotted line
+
+
+
+# Calculating the p-value (confirming with R's inbuilt t.test p-value)
+p = pt(t,df,lower.tail = FALSE)
+p * 2
+
+```
+
+# References
+
+Australian Government, Department of Agriculture, Water and Environment. (2005, March 21). Death or injury to marine species following capture in beach meshing (nets) and drum lines used in Shark Control Programs. https://www.environment.gov.au/biodiversity/threatened/nominations/ineligible-ktp/death-or-injury-to-marine-species
+ 
+Holmes, B.J., Pepperell, J.G., Griffiths, S.P., Jaine, F.R.A., Tibetts, I.R., & Bennett, M.B. (2014).Tiger shark (Galeocerdo cuvier) movement patterns and habitat use determined by satellite tagging in eastern Australian waters.Marine Biology,161,2645–2658. https://doi.org/10.1007/s00227-014-2536-1
+
+Queensland Government (n.d.). Shark Control Program Shark Catch Statistics by year. https://www.data.qld.gov.au/dataset/shark-control-program-shark-catch-statistics
+
+Queensland Government. (n.d.). Frequently Asked Questions. https://www.data.qld.gov.au/article/standards-and-guidance/faq
+
+Queensland Government, Department of Agriculture and Fisheries. (2019, September 25). Shark Control Program. https://www.daf.qld.gov.au/business-priorities/fisheries/shark-control-program
+
+Queensland Government (n.d.). Queensland Government Response to Senate Referred Inquiry into the Efficacy and Regulation of Shark Mitigation and Deterrent Measures. https://www.aph.gov.au/DocumentStore.ashx?id=95ae3506-556a-40e0-93c9-38bb2afb6d44&subId=464689
